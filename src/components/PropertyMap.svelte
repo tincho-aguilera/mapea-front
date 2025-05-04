@@ -110,12 +110,16 @@
     async function initializeMap() {
         if (browser && !mapInitialized) {
             try {
+                console.log("[DEBUG] Iniciando carga de librería Leaflet...");
                 // Importamos Leaflet
                 const leaflet = await import('leaflet');
                 L = leaflet.default || leaflet;
+                console.log("[DEBUG] Leaflet cargado correctamente:", !!L);
 
                 // Importamos leaflet-draw - de manera que aseguremos que esté disponible en L
+                console.log("[DEBUG] Iniciando carga de leaflet-draw...");
                 await import('leaflet-draw');
+                console.log("[DEBUG] leaflet-draw cargado. L.Draw disponible:", !!L.Draw);
 
                 // Verificar si L.Draw está disponible
                 if (!L.Draw) {
@@ -306,15 +310,24 @@
                 `;
                 document.head.appendChild(style);
 
+                console.log("[DEBUG] Inicializando el mapa en el elemento con id 'map'");
+                const mapElement = document.getElementById('map');
+                if (!mapElement) {
+                    console.error("[ERROR] Elemento 'map' no encontrado en el DOM");
+                    throw new Error("Elemento 'map' no encontrado");
+                }
+
                 map = L.map('map', {
                     zoomControl: false  // Disable default zoom control to reposition it
                 }).setView([-32.8908, -68.8272], 12);  // Mendoza, Argentina como centro por defecto
+                console.log("[DEBUG] Mapa inicializado correctamente:", !!map);
 
                 // Add zoom control to bottom right
                 L.control.zoom({
                     position: 'bottomright'
                 }).addTo(map);
 
+                console.log("[DEBUG] Cargando tiles de OpenStreetMap...");
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap'
                 }).addTo(map);
@@ -395,8 +408,11 @@
                 });
 
                 mapInitialized = true;
+                console.log("[DEBUG] Inicialización del mapa completada correctamente");
             } catch (error) {
                 console.error('Error al inicializar el mapa:', error);
+                error = true;
+                errormessage = `Error al inicializar el mapa: ${error.message}`;
             }
         }
     }
@@ -553,8 +569,19 @@
                 propertyType: propertyTypeSelected || "Departamentos"
             };
 
+            console.log(`[DEBUG] Buscando propiedades para ${dataSource}:`, filters);
+
             // Obtener las propiedades
             const properties = await propertyService.searchProperties(filters);
+
+            // Depurar propiedades recibidas
+            console.log(`[DEBUG] Propiedades encontradas para ${dataSource}:`, properties.length);
+            console.log(`[DEBUG] Propiedades con coordenadas:`, properties.filter(p => p.latitude && p.longitude).length);
+
+            // Si hay propiedades pero ninguna tiene coordenadas, mostrar advertencia
+            if (properties.length > 0 && properties.filter(p => p.latitude && p.longitude).length === 0) {
+                console.warn('[DEBUG] ADVERTENCIA: Se encontraron propiedades pero ninguna tiene coordenadas válidas');
+            }
 
             // Mostrar las propiedades en el mapa
             await displayProperties(properties);
