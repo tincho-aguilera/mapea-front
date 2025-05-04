@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # sv
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
@@ -36,3 +37,6 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+=======
+# mapea-front
+>>>>>>> a9819361919dca66c6139fd4695f6cf1dde255e2
