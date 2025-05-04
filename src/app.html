@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		 <!-- Favicons actualizados con parámetro de versión para evitar caché -->
+		<link rel="icon" href="%sveltekit.assets%/images/favicon.ico?v=2" />
+		<link rel="icon" type="image/png" sizes="16x16" href="%sveltekit.assets%/images/favicon-16x16.png?v=2">
+		<link rel="icon" type="image/png" sizes="32x32" href="%sveltekit.assets%/images/favicon-32x32.png?v=2">
+		<link rel="icon" type="image/png" sizes="48x48" href="%sveltekit.assets%/images/favicon-48x48.png?v=2">
+		<link rel="icon" type="image/png" sizes="64x64" href="%sveltekit.assets%/images/favicon-64x64.png?v=2">
+		<link rel="icon" type="image/png" sizes="128x128" href="%sveltekit.assets%/images/favicon-128x128.png?v=2">
+		<link rel="manifest" href="%sveltekit.assets%/site.webmanifest?v=2">
+
+		<!-- Meta tags para control de caché -->
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+
+		<!-- Importar fuente Roboto de Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+		<!-- Color del tema para navegadores móviles -->
+		<meta name="theme-color" content="#4299e1">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Mapea</title>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover" class="bg-white dark:bg-gray-800">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
