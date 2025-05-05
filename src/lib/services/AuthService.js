@@ -22,11 +22,12 @@ class AuthService {
     try {
       // Crear FormData para enviar
       const formData = new URLSearchParams();
-      
-      // Simplemente enviamos usuario y contraseña en base64
-      formData.append('username', btoa(username));
-      formData.append('password', btoa(password));
-      formData.append('encoding', 'base64'); // Indicamos que está codificado en base64
+
+      // Enviamos usuario y contraseña en texto plano
+      formData.append('username', username);
+      formData.append('password', password);
+      // Eliminamos la codificación en base64
+      // formData.append('encoding', 'base64');
 
       const response = await fetch(`${this.apiUrl}/token`, {
         method: 'POST',
