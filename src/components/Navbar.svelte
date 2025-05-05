@@ -16,7 +16,7 @@
   </NavBrand>
   <div class="flex md:order-2 items-center gap-4">
     <DarkMode class="mr-2" />
-    <Button size="sm" on:click={handleOpenFilters}>Aplicar filtros</Button>
+    <Button color="primary" size="sm" onclick={handleOpenFilters}>Aplicar filtros</Button>
     <NavHamburger />
   </div>
 </Navbar>

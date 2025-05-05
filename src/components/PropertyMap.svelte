@@ -511,8 +511,7 @@
                                 ${property.supTotal ? `<span class="px-3 py-1 bg-gray-100 rounded-lg">${property.supTotal} m²</span>` : ''}
                             </div>
 
-                            <a href="${property.url}" target="_blank"
-                               class="inline-flex items-center px-4 py-2 mb-3 text-sm font-medium text-white bg-cyan-500 rounded-lg hover:bg-cyan-600 transition-colors">
+                            <a href="${property.url}" target="_blank" class="inline-flex items-center px-4 py-2 mb-3 text-sm font-medium text-white bg-primary-800 hover:bg-primary-900 rounded-lg transition-colors">
                                 Ver detalles
                                 <svg class="w-4 h-4 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -680,6 +679,15 @@
     z-index: 1;
   }
 
+  /* Sobreescribir el color de los enlaces en los popups de Leaflet */
+  :global(.leaflet-container a.bg-primary-500) {
+    color: white !important;
+  }
+
+  :global(.leaflet-container a.bg-primary-800) {
+    color: white !important;
+  }
+
   :global(.leaflet-touch-drag) {
     -ms-touch-action: none !important;
     touch-action: none !important;
@@ -747,7 +755,7 @@
   {:else}
     {#if !searchInitiated}
       <div class="welcome-message">
-        <Alert color="blue" class="max-w-md">
+        <Alert color="primary" class="max-w-md">
           <InfoCircleSolid slot="icon" class="w-5 h-5" />
           <span class="font-medium">Utiliza los filtros</span>
           <p>Selecciona los criterios de búsqueda y presiona "Buscar" para encontrar propiedades</p>
@@ -758,7 +766,7 @@
       <div id="map">
         {#if results > 0}
           <div class="results-counter">
-            <Alert color="info" class="p-2 m-0">
+            <Alert color="secondary" class="p-2 m-0">
               <span class="font-medium">{results} propiedades encontradas</span>
             </Alert>
           </div>
