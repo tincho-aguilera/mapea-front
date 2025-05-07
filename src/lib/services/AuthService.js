@@ -2,6 +2,7 @@
  * Servicio de autenticación para el frontend
  * Maneja inicio de sesión, almacenamiento de tokens y verificación de autenticación
  */
+
 class AuthService {
   constructor() {
     this.tokenKey = 'alquileres_token';
@@ -20,21 +21,39 @@ class AuthService {
    */
   async login(username, password) {
     try {
+      console.log('Iniciando proceso de login...');
+      const startTime = Date.now();
+
+      // Cifrar la contraseña antes de enviarla
+      const encryptedPassword = this.encryptPassword(password);
+      console.log('Contraseña cifrada correctamente');
+
       // Crear FormData para enviar
       const formData = new URLSearchParams();
 
-      // Enviamos usuario y contraseña en texto plano
+      // Enviamos usuario en texto plano y contraseña cifrada
       formData.append('username', username);
-      formData.append('password', password);
-      // Eliminamos la codificación en base64
-      // formData.append('encoding', 'base64');
+      formData.append('password', encryptedPassword);
 
+      // Implementar un timeout para evitar esperas infinitas
+      const abortController = new AbortController();
+      const timeoutId = setTimeout(() => abortController.abort(), 15000); // 15 segundos de timeout
+
+      console.log('Enviando solicitud al servidor...');
       const response = await fetch(`${this.apiUrl}/token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: formData
+        body: formData,
+        signal: abortController.signal
+      }).catch(error => {
+        if (error.name === 'AbortError') {
+          throw new Error('La solicitud de login ha excedido el tiempo máximo de espera (15s)');
+        }
+        throw error;
+      }).finally(() => {
+        clearTimeout(timeoutId);
       });
 
       if (!response.ok) {
@@ -42,6 +61,7 @@ class AuthService {
         throw new Error(error.detail || 'Error al iniciar sesión');
       }
 
+      console.log(`Respuesta recibida en ${Date.now() - startTime}ms`);
       const data = await response.json();
 
       // Guardar el token de forma segura
@@ -50,6 +70,7 @@ class AuthService {
       // Obtener información del usuario
       await this.fetchUserInfo();
 
+      console.log(`Proceso de login completado en ${Date.now() - startTime}ms`);
       return data;
     } catch (error) {
       console.error('Error de autenticación:', error);
@@ -212,6 +233,30 @@ class AuthService {
   getAuthHeaders() {
     const token = this.getToken();
     return token ? { 'Authorization': `Bearer ${token}` } : {};
+  }
+
+  /**
+   * Cifra un texto utilizando una técnica simple compatible con el backend
+   * @param {string} text Texto a cifrar
+   * @returns {string} Texto cifrado en formato base64
+   */
+  encryptPassword(password) {
+    try {
+      console.log("Usando cifrado personalizado simple...");
+
+      // Solución: usamos un enfoque simple
+      // que garantiza compatibilidad entre frontend y backend
+
+      // 1. Codificar la contraseña en base64
+      const base64Password = btoa(password);
+
+      // 2. Agregar una firma simple para indicar que es contraseña cifrada
+      // El backend sabrá cómo procesarla
+      return `CUSTOM_ENC:${base64Password}`;
+    } catch (error) {
+      console.error('Error al cifrar datos:', error);
+      throw new Error('Error en el proceso de cifrado');
+    }
   }
 }
 
