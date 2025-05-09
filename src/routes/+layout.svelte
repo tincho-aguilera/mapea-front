@@ -15,9 +15,9 @@
 	const publicRoutes = ['/login'];
 
 	// Verificar estado de autenticación
-	onMount(async () => {
-		await checkAuth();
-	});
+	// onMount(async () => {
+	// 	await checkAuth();
+	// });
 
 	// Función para verificar autenticación
 	async function checkAuth() {
@@ -50,26 +50,26 @@
 	}
 </script>
 
-{#if isCheckingAuth}
+<!-- {#if isCheckingAuth} -->
 	<!-- Loader mientras se verifica autenticación -->
-	<div class="auth-checking">
+	<!-- <div class="auth-checking">
 		<p>Cargando aplicación...</p>
-	</div>
-{:else}
-	{#if isAuthenticated}
+	</div> -->
+<!-- {:else} -->
+	<!-- {#if isAuthenticated} -->
 		<Navbar on:openFilters={handleOpenFilters} />
 		<main>
 			{@render children()}
 		</main>
-	{:else}
+	<!-- {:else} -->
 		<!-- Mostrar mensaje de error o pantalla de carga si la autenticación falló -->
-		<div class="auth-error">
+		<!-- <div class="auth-error">
 			<h2>Error de conexión</h2>
 			<p>No se pudo conectar con el servicio. Intente nuevamente más tarde.</p>
 			<button on:click={checkAuth}>Reintentar</button>
-		</div>
-	{/if}
-{/if}
+		</div> -->
+	<!-- {/if} -->
+<!-- {/if} -->
 
 <style>
 	.auth-checking {
